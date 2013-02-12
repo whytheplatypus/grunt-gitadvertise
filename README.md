@@ -11,6 +11,8 @@ Then add this line to your project's `grunt.js` gruntfile:
 grunt.loadNpmTasks('grunt-gitadvertise');
 ```
 
+You may have to run git update-server-info if you haven't commited since you ran gitadvertise for the first time since it installs a post-commit hook
+
 [grunt]: http://gruntjs.com/
 [getting_started]: https://github.com/gruntjs/grunt/blob/master/docs/getting_started.md
 

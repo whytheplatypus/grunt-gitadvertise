@@ -15,9 +15,40 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerTask('gitadvertise', 'Host and advertise the local git repo', function() {
-    grunt.log.write(grunt.helper('gitadvertise'));
-    grunt.file.copy('../files/post-commit', grunt.file.expandDirs(/.git\/hooks/));
+  grunt.registerTask('gitadvertise', 'Host and advertise the local git repo', function(name) {
+    grunt.log.writeln(grunt.helper('gitadvertise'));
+    grunt.file.copy(grunt.task.getFile('files/post-commit'), '.git/hooks/post-commit');
+    var done = this.async();
+
+    var restify = require('restify'),
+      portfinder = require('portfinder'),
+      mdns = require('mdns');
+
+    var server = restify.createServer();
+
+    var gitDir = ".git"//osmething 
+    server.pre(function(req, res, next){
+      if(req.url == '/'){
+        req.url = '/.git'
+      }
+      return next();
+    });
+    server.get('/\/.*/', restify.serveStatic({
+      directory: "."
+    }));
+
+    portfinder.getPort(function (err, port) {
+      if(err){
+        grunt.log.error(err);
+        return err;
+      }
+      server.listen(port, function() {
+        grunt.log.writeln(server.name+ ' listening at '+server.url);
+        var ad = mdns.createAdvertisement(mdns.tcp('gitad-'+name), port);
+        ad.start();
+        done();
+      });
+    });
   });
 
   // ==========================================================================
