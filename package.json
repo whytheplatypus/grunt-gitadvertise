@@ -33,5 +33,10 @@
   },
   "keywords": [
     "gruntplugin"
-  ]
+  ],
+  "dependencies": {
+    "mdns": "~1.1.0",
+    "restify": "~2.2.1",
+    "portfinder": "~0.2.1"
+  }
 }

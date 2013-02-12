@@ -15,8 +15,9 @@ module.exports = function(grunt) {
   // TASKS
   // ==========================================================================
 
-  grunt.registerTask('gitadvertise', 'Your task description goes here.', function() {
+  grunt.registerTask('gitadvertise', 'Host and advertise the local git repo', function() {
     grunt.log.write(grunt.helper('gitadvertise'));
+    grunt.file.copy('../files/post-commit', grunt.file.expandDirs(/.git\/hooks/));
   });
 
   // ==========================================================================
