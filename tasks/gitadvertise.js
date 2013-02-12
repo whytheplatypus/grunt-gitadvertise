@@ -14,10 +14,19 @@ module.exports = function(grunt) {
   // ==========================================================================
   // TASKS
   // ==========================================================================
-
+//could change this to the package name from package.json
   grunt.registerTask('gitadvertise', 'Host and advertise the local git repo', function(name) {
     grunt.log.writeln(grunt.helper('gitadvertise'));
     grunt.file.copy(grunt.task.getFile('files/post-commit'), '.git/hooks/post-commit');
+    var myTerminal = require("child_process").exec,
+    commandToBeExecuted = "chmod +x .git/hooks/post-commit";
+
+    myTerminal(commandToBeExecuted, function(error, stdout, stderr) {
+        if (!error) {
+             //do something
+        }
+    });
+    
     var done = this.async();
 
     var restify = require('restify'),
